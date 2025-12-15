@@ -35,6 +35,7 @@
       justify-content: space-between;
       margin-bottom: 14px;
       font-weight: bold;
+      <div>Time: <span id="time">0</span>s</div>
     }
     .grid {
       display: grid;
@@ -98,9 +99,6 @@
     <div class="stats">
       <div>Attempts: <span id="attempts">0</span></div>
       <div>Matches: <span id="matches">0</span></div>
-      <div>Time: <span id="time">0</span>s</div>
-    </div>
-      <div>Matches: <span id="matches">0</span></div>
     </div>
 
     <div class="grid" id="grid"></div>
@@ -111,6 +109,34 @@
   </div>
 
   <script>
+    // ===== TIMER CODE =====
+let time = 0;
+let timerInterval = null;
+
+function startTimer() {
+  clearInterval(timerInterval);
+  time = 0;
+  document.getElementById("time").textContent = time;
+
+  timerInterval = setInterval(() => {
+    time++;
+    document.getElementById("time").textContent = time;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+// =====================
+startTimer();
+stopTimer();
+// optional win message
+alert(`You win! Time: ${time}s`);
+stopTimer();
+startTimer();
+let stars = time <= 60 ? "⭐⭐⭐" : time <= 90 ? "⭐⭐" : "⭐";
+alert(`You win! ${stars} (${time}s)`);
+
     const PAIRS = [
       // Trig right triangles
       { id: 1, a: "sin(θ) = opposite / hypotenuse", b: "SOH from SOHCAHTOA" },
@@ -134,13 +160,10 @@
     let flipped = [];
     let matched = [];
     let attempts = 0;
-    let time = 0;
-    let timerInterval = null;
 
     const grid = document.getElementById("grid");
     const attemptsEl = document.getElementById("attempts");
     const matchesEl = document.getElementById("matches");
-    const timeEl = document.getElementById("time");
     const starEl = document.getElementById("star");
 
     function shuffle(array) {
@@ -148,13 +171,6 @@
     }
 
     function setup() {
-      if (timerInterval) clearInterval(timerInterval);
-      time = 0;
-      timeEl.textContent = 0;
-      timerInterval = setInterval(() => {
-        time++;
-        timeEl.textContent = time;
-      }, 1000);
       const deck = PAIRS.flatMap(p => [
         { key: `a-${p.id}`, pair: p.id, text: p.a },
         { key: `b-${p.id}`, pair: p.id, text: p.b }
@@ -194,9 +210,7 @@
           flipped = [];
 
           if (matched.length === PAIRS.length) {
-            clearInterval(timerInterval);
             starEl.style.display = "block";
-            starEl.innerHTML = `⭐ You Win!<br>Time: ${time}s`;
           }
         } else {
           setTimeout(() => {
@@ -211,7 +225,6 @@
     }
 
     function resetGame() {
-      clearInterval(timerInterval);
       flipped = [];
       matched = [];
       attempts = 0;
@@ -222,31 +235,6 @@
     }
 
     setup();
-    .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  justify-items: center;
-  align-items: center;
-}
-
-.card {
-  width: 120px;
-  height: 120px;
-  background: #1e293b;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-  text-align: center;
-  border-radius: 12px;
-  font-size: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
   </script>
 </body>
 </html>
