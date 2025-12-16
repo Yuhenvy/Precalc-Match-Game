@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Precalculus Math Match</title>
+  <title>Precalculus Match</title>
 
   <style>
     body {
@@ -80,8 +80,9 @@
 
     .star {
       text-align: center;
-      font-size: 36px;
+      font-size: 32px;
       margin-top: 20px;
+      font-weight: bold;
     }
 
     button {
@@ -101,7 +102,7 @@
 <body>
   <div class="game">
     <h1>Precalculus Match</h1>
-    <div class="info">Match the expression to its meaning, identity, or graph</div>
+    <div class="info">Match the expression to its meaning, identity, or application</div>
 
     <div class="stats">
       <div>Attempts: <span id="attempts">0</span></div>
@@ -136,16 +137,31 @@
     }
     // =================
 
+    // ===== PRECALCULUS CONTENT =====
     const PAIRS = [
-      { id: 1, a: "sin(θ) = opposite / hypotenuse", b: "SOH from SOHCAHTOA" },
-      { id: 2, a: "cos(θ) = adjacent / hypotenuse", b: "CAH from SOHCAHTOA" },
-      { id: 3, a: "tan(θ) = opposite / adjacent", b: "TOA from SOHCAHTOA" },
-      { id: 4, a: "sin²x + cos²x", b: "= 1 (Pythagorean identity)" },
-      { id: 5, a: "1 + tan²x", b: "= sec²x" },
-      { id: 6, a: "log(ab)", b: "log a + log b" },
-      { id: 7, a: "log(aᵏ)", b: "k log a" },
-      { id: 8, a: "y = a·bˣ", b: "Exponential growth/decay" },
-      { id: 9, a: "Domain of √(x − 3)", b: "x ≥ 3" }
+      // Identifying / transforming functions
+      { id: 1, a: "y = (x − 2)²", b: "Parabola shifted right 2 units" },
+      { id: 2, a: "y = 2·3ˣ", b: "Exponential growth" },
+
+      // Equations to graphs / systems
+      { id: 3, a: "y = mx + b", b: "Linear function" },
+      { id: 4, a: "x + y = 5", b: "Linear equation (system-ready)" },
+
+      // Polar / complex
+      { id: 5, a: "3 + 4i", b: "Complex number" },
+      { id: 6, a: "(r, θ)", b: "Polar coordinates" },
+
+      // Logs / exponentials
+      { id: 7, a: "log(ab)", b: "log a + log b" },
+      { id: 8, a: "eˣ = 5", b: "Exponential equation" },
+
+      // Trig / inverse trig
+      { id: 9, a: "sin(θ) = opposite / hypotenuse", b: "SOH from SOHCAHTOA" },
+      { id: 10, a: "sin⁻¹(1/2)", b: "π/6" },
+
+      // Real-world applications
+      { id: 11, a: "Population growth model", b: "Exponential function" },
+      { id: 12, a: "Height vs time", b: "Quadratic model" }
     ];
 
     let cards = [];
@@ -171,10 +187,12 @@
       matchesEl.textContent = 0;
       starEl.style.display = "none";
 
-      cards = shuffle(PAIRS.flatMap(p => [
-        { pair: p.id, text: p.a },
-        { pair: p.id, text: p.b }
-      ]));
+      cards = shuffle(
+        PAIRS.flatMap(p => [
+          { pair: p.id, text: p.a },
+          { pair: p.id, text: p.b }
+        ])
+      );
 
       grid.innerHTML = "";
 
@@ -211,7 +229,11 @@
           if (matched.length === PAIRS.length) {
             stopTimer();
             starEl.style.display = "block";
-            starEl.textContent = `⭐ You Win! Time: ${time}s`;
+            if (time <= 60) {
+              starEl.textContent = "⭐ You earned a star!";
+            } else {
+              starEl.textContent = "Completed — try for under 60 seconds!";
+            }
           }
         } else {
           setTimeout(() => {
