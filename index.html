@@ -229,11 +229,11 @@
           if (matched.length === PAIRS.length) {
             stopTimer();
             starEl.style.display = "block";
-            if (time <= 60) {
-              starEl.textContent = "⭐ You earned a star!";
-            } else {
-              starEl.textContent = "Completed — try for under 60 seconds!";
-            }
+            if (time <= 90) {
+    starEl.textContent = "⭐ You earned a star!";
+  } else {
+  starEl.textContent = "Completed — try for under 90 seconds!";
+  }
           }
         } else {
           setTimeout(() => {
@@ -256,3 +256,4 @@
   </script>
 </body>
 </html>
+
