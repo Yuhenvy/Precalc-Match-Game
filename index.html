@@ -40,6 +40,8 @@
       justify-content: space-between;
       margin-bottom: 14px;
       font-weight: bold;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .grid {
@@ -108,6 +110,7 @@
       <div>Attempts: <span id="attempts">0</span></div>
       <div>Matches: <span id="matches">0</span></div>
       <div>Time: <span id="time">0</span>s</div>
+      <div>Stars: <span id="stars">0</span></div>
     </div>
 
     <div class="grid" id="grid"></div>
@@ -137,29 +140,28 @@
     }
     // =================
 
+    // ===== STAR COUNTER =====
+    let starCount = 0;
+    const starsEl = document.getElementById("stars");
+    // =======================
+
     // ===== PRECALCULUS CONTENT =====
     const PAIRS = [
-      // Identifying / transforming functions
       { id: 1, a: "y = (x − 2)²", b: "Parabola shifted right 2 units" },
       { id: 2, a: "y = 2·3ˣ", b: "Exponential growth" },
 
-      // Equations to graphs / systems
       { id: 3, a: "y = mx + b", b: "Linear function" },
       { id: 4, a: "x + y = 5", b: "Linear equation (system-ready)" },
 
-      // Polar / complex
       { id: 5, a: "3 + 4i", b: "Complex number" },
       { id: 6, a: "(r, θ)", b: "Polar coordinates" },
 
-      // Logs / exponentials
       { id: 7, a: "log(ab)", b: "log a + log b" },
       { id: 8, a: "eˣ = 5", b: "Exponential equation" },
 
-      // Trig / inverse trig
       { id: 9, a: "sin(θ) = opposite / hypotenuse", b: "SOH from SOHCAHTOA" },
       { id: 10, a: "sin⁻¹(1/2)", b: "π/6" },
 
-      // Real-world applications
       { id: 11, a: "Population growth model", b: "Exponential function" },
       { id: 12, a: "Height vs time", b: "Quadratic model" }
     ];
@@ -229,11 +231,14 @@
           if (matched.length === PAIRS.length) {
             stopTimer();
             starEl.style.display = "block";
+
             if (time <= 90) {
-    starEl.textContent = "⭐ You earned a star!";
-  } else {
-  starEl.textContent = "Completed — try for under 90 seconds!";
-  }
+              starCount++;
+              starsEl.textContent = starCount;
+              starEl.textContent = "⭐ You earned a star!";
+            } else {
+              starEl.textContent = "Completed — try for under 90 seconds!";
+            }
           }
         } else {
           setTimeout(() => {
@@ -256,4 +261,3 @@
   </script>
 </body>
 </html>
-
